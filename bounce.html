@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouncing Window Prank</title>
+    <script>
+        let bounceWindow;
+
+        function openBouncingWindow() {
+            const width = 300;
+            const height = 200;
+            const left = Math.random() * (window.innerWidth - width);
+            const top = Math.random() * (window.innerHeight - height);
+
+            bounceWindow = window.open("", "BouncingWindow", `width=${width},height=${height},top=${top},left=${left}`);
+            bounceWindow.document.write("<h1 style='text-align:center;'>Catch Me!</h1>");
+            bounceWindow.document.write("<p style='text-align:center;'>I'm bouncing around!</p>");
+
+            bounceAround();
+        }
+
+        function bounceAround() {
+            if (!bounceWindow || bounceWindow.closed) return;
+
+            const width = 300;
+            const height = 200;
+
+            let xDirection = Math.random() > 0.5 ? 1 : -1;
+            let yDirection = Math.random() > 0.5 ? 1 : -1;
+
+            setInterval(() => {
+                let newLeft = bounceWindow.screenX + (xDirection * 20);
+                let newTop = bounceWindow.screenY + (yDirection * 20);
+
+                if (newLeft < 0 || newLeft + width > screen.width) xDirection *= -1;
+                if (newTop < 0 || newTop + height > screen.height) yDirection *= -1;
+
+                bounceWindow.moveTo(newLeft, newTop);
+            }, 100);
+        }
+    </script>
+</head>
+<body onload="openBouncingWindow()">
+    <h1 style="text-align:center;">Welcome to the Bouncing Window Prank!</h1>
+</body>
+</html>
